@@ -19,7 +19,7 @@ class Author(models.Model):
     """
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    data_of_birth = models.DateField(null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField(null=True, blank=True)
 
     def get_absolute_url(self):
@@ -53,12 +53,18 @@ class Book(models.Model):
     def get_absolute_path(self):
         return reverse('book-detail', args=[str(self.id)])
 
+    def display_genre(self):
+        """
+        Creates a string for the Genre. This is required to display genre in Admin.
+        """
+        return ', '.join([genre.name for genre in self.genre.all()[:3]])
+    display_genre.short_description = 'Genre'
 
 class BookInstance(models.Model):
     """
     Mode representing a specific copy of a book (i.e. that can be borrowed from the library).
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), help_text="Unique ID for this particular book across whole library.")
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library.")
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
