@@ -20,4 +20,6 @@ My Local Library
         <li><strong>Number of Genre:</strong> {{ num_genre }}</li>
         <li><strong>Number of Python books:</strong>{{  num_python_books }}</li>
     </ul>
+
+    <p>You have visited this page {{ num_visits }} {% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
 {% endblock %}
